@@ -173,7 +173,6 @@ function App() {
   const [time, setTime] = useState('');
   const [hoveredProject, setHoveredProject] = useState<string | null>(null);
   const [isDark, setIsDark] = useState(true);
-  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     const updateTime = () => {
@@ -197,21 +196,7 @@ function App() {
     document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
   }, [isDark]);
 
-  useEffect(() => {
-    const overlay = overlayRef.current;
-    if (!overlay) return;
-    const handleScroll = () => {
-      const { scrollTop, scrollHeight, clientHeight } = overlay;
-      const totalScrollable = scrollHeight - clientHeight;
-      setScrollProgress(totalScrollable > 0 ? (scrollTop / totalScrollable) * 100 : 0);
-    };
-    overlay.addEventListener('scroll', handleScroll, { passive: true });
-    return () => overlay.removeEventListener('scroll', handleScroll);
-  }, [showDetail]);
 
-  useEffect(() => {
-    setScrollProgress(0);
-  }, [selectedProject]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -441,9 +426,7 @@ function App() {
       </footer>
 
       <section ref={overlayRef} className={`overlay${showDetail ? ' active' : ''}`}>
-        <div className="scroll-progress-bar">
-          <div className="scroll-progress-fill" style={{ width: `${scrollProgress}%` }} />
-        </div>
+
         <div className="case-nav">
           <button id="case-back-btn" className="back-btn" onClick={() => setShowDetail(false)}>
             ← Back
