@@ -20,7 +20,7 @@
   --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
   --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-in-out-expo: cubic-bezier(1, 0, 0, 1);
-  --col-bg-translucent: rgba(21, 22, 29, 0.75);
+  --col-bg-translucent: rgba(21, 22, 29, 0.92);
 }
 [data-theme="light"] {
   --col-bg: #f3f4fa;
@@ -34,7 +34,7 @@
   --border-color: #00000014;
   --col-dark-trans: #e8ebf500;
   --col-media-bg: #e2e5f0;
-  --col-bg-translucent: rgba(243, 244, 250, 0.75);
+  --col-bg-translucent: rgba(243, 244, 250, 0.92);
 }
 *,
 :before,
@@ -840,8 +840,8 @@ body:before {
   position: relative;
   z-index: 2;
   background: var(--col-bg-translucent);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
   padding: max(30px, 4.5rem) var(--gutter);
   border-top: 1px solid var(--border-color);
   flex-direction: column;
@@ -885,8 +885,8 @@ body:before {
   position: relative;
   z-index: 2;
   background: var(--col-bg-translucent);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
   padding: max(40px, 6rem) var(--gutter);
   border-top: 1px solid var(--border-color);
   text-align: center;
