@@ -443,8 +443,7 @@ function App() {
       <header className="header">
         <div className="header-left">
           <div className="header-brand">
-            <a href="/" className="logo">AYA KAROU</a>
-            <span className="mobile-avail">Studying @ ESTIN ↗</span>
+            <a href="/" className="logo">KAROU AYA MALAK</a>
           </div>
           <button id="contact-btn" className="nav-link" onClick={() => setShowContact(true)}>
             Contact
@@ -458,17 +457,17 @@ function App() {
             aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className="theme-toggle-icon" style={{ width: 'max(14px, 1.6rem)', height: 'max(14px, 1.6rem)' }}>
-              <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor"/>
-              <path d="M12 2 A10 10 0 0 0 12 22 Z" fill="currentColor" opacity="0.2"/>
-              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" fill="none"/>
-              <line x1="12" y1="2" x2="12" y2="22" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M12 2 A10 10 0 0 1 12 22 Z" fill="currentColor" />
+              <path d="M12 2 A10 10 0 0 0 12 22 Z" fill="currentColor" opacity="0.2" />
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" fill="none" />
+              <line x1="12" y1="2" x2="12" y2="22" stroke="currentColor" stroke-width="1.5" />
             </svg>
           </button>
         </div>
         <div className="header-right" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.2rem' }}>
           <p className="clock">{time}</p>
           <p className="clock">Bouira, Algeria</p>
-          <span className="availability">Studying in ESTIN Bejaia ↗</span>
+          <span className="availability">Front End Developer ↗</span>
         </div>
         <button className="mobile-menu-btn" onClick={() => setShowMobileMenu(true)}>
           Menu
@@ -514,14 +513,15 @@ function App() {
         </div>
         {/* Mobile vertical project list */}
         <div className="mobile-hero">
-          <h1 className="mobile-hero-title">Aya Karou</h1>
-          <p className="mobile-hero-subtitle">
-            Frontend developer studying Computer Science at ESTIN, specializing in building high-quality, motion-rich, and polished web experiences.
+          <h1 className="mobile-hero-title reveal-wrapper">
+            <span className="reveal-item"> HII THERE !</span>
+          </h1>
+          <p className="mobile-hero-subtitle reveal-wrapper">
+            <span className="reveal-item delay-1">
+              I'M AYA A FRONT-END DEVELOPER AND A MOTION DESIGNER BASED IN BOUIRA , ALGERIA .
+              FEEL FREE TO SEE MY PROJECTS AND CONTACT ME IF YOU HAVE A PROJECT IN MIND
+            </span>
           </p>
-          <div className="mobile-hero-foot">
-            <span className="mobile-hero-tag">Studying @ ESTIN</span>
-            <span className="mobile-scroll-hint">Explore Work ↓</span>
-          </div>
         </div>
 
         <div className="mobile-projects-list">
@@ -692,18 +692,25 @@ function App() {
         <div className="about-content">
           <div className="about-bio">
             <h1 className="about-bio-title">
-              Karou<br />Aya Malak
+              <span className="reveal-wrapper"><span className="reveal-item">Karou</span></span>
+              <span className="reveal-wrapper"><span className="reveal-item delay-1">Aya Malak</span></span>
             </h1>
             <div className="about-bio-text">
-              <h2>Bio</h2>
-              <p>
-                Hey, I'm Aya! I'm a 19-year-old frontend developer and a 2CP computer science student at ESTIN (École Supérieure en Sciences et Technologies de l'Informatique et du Numérique), hailing from Bouira, Algeria.
+              <h2 className="reveal-wrapper"><span className="reveal-item">Bio</span></h2>
+              <p className="reveal-wrapper">
+                <span className="reveal-item delay-1">
+                  Hey, I'm Aya! I'm a 19-year-old frontend developer and a 2CP computer science student at ESTIN (École Supérieure en Sciences et Technologies de l'Informatique et du Numérique), hailing from Bouira, Algeria.
+                </span>
               </p>
-              <p>
-                My entry into web development in the summer of 2025 changed everything. It ceased being just a hobby and became my daily creative outlet — a lifestyle centered around rapid growth and continuous execution.
+              <p className="reveal-wrapper">
+                <span className="reveal-item delay-2">
+                  My entry into web development in the summer of 2025 changed everything. It ceased being just a hobby and became my daily creative outlet — a lifestyle centered around rapid growth and continuous execution.
+                </span>
               </p>
-              <p>
-                Driven by endless curiosity, I craft polished, immersive interfaces and write elegant code. Want to know more or collaborate? Let’s connect and spark a conversation!
+              <p className="reveal-wrapper">
+                <span className="reveal-item delay-3">
+                  Driven by endless curiosity, I craft polished, immersive interfaces, write elegant code, and am currently focused on mastering backend development to build powerful, full-stack digital systems. Want to know more or collaborate? Let’s connect and spark a conversation!
+                </span>
               </p>
             </div>
           </div>
@@ -781,9 +788,12 @@ function App() {
         </div>
         <div className="contact-content">
           <h2 className="contact-heading">
-            Let's Create<br />Something Crazy
+            <span className="reveal-wrapper"><span className="reveal-item">Let's Create</span></span>
+            <span className="reveal-wrapper"><span className="reveal-item delay-1">Something Crazy</span></span>
           </h2>
-          <p className="contact-sub">Have a project in mind?</p>
+          <p className="contact-sub reveal-wrapper">
+            <span className="reveal-item delay-2">Have a project in mind?</span>
+          </p>
           <a href="mailto:a_karou@estin.dz" className="contact-email">
             a_karou@estin.dz
           </a>

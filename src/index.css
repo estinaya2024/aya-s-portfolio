@@ -1530,42 +1530,33 @@ body:before {
     50% { transform: translateY(2px); }
   }
 
-  /* ── Mobile Project Card Badge ── */
-  .mobile-card-badge {
+  /* ── Mobile Project Card Dot ── */
+  .mobile-card-dot {
     position: absolute;
-    top: 14px;
-    left: 14px;
+    top: 16px;
+    left: 16px;
     z-index: 10;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 9px;
-    border-radius: 6px;
-    background: rgba(14, 15, 20, 0.45);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
     transition: all 0.4s ease;
   }
-  .badge-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    flex-shrink: 0;
+  .blue-dot {
+    background-color: #5e71e9;
+    box-shadow: 0 0 10px rgba(94, 113, 233, 0.7);
   }
-  .badge-text {
-    font-family: monospace;
-    font-size: 8.5px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    color: rgba(255, 255, 255, 0.85);
-    text-transform: uppercase;
+  .teal-dot {
+    background-color: #14b8a6;
+    box-shadow: 0 0 10px rgba(20, 184, 166, 0.7);
   }
-  .blue-badge .badge-dot { background-color: #5e71e9; }
-  .teal-badge .badge-dot { background-color: #14b8a6; }
-  .purple-badge .badge-dot { background-color: #a855f7; }
-  .orange-badge .badge-dot { background-color: #f97316; }
+  .purple-dot {
+    background-color: #a855f7;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.7);
+  }
+  .orange-dot {
+    background-color: #f97316;
+    box-shadow: 0 0 10px rgba(249, 115, 22, 0.7);
+  }
 
   /* ── Mobile project cards ── */
   .mobile-projects-list {
@@ -1975,4 +1966,55 @@ body:before {
 .ticks:after {
   border-right-color: var(--border);
   right: 0;
+}
+
+/* ─────────────────────────────────────
+   REVEAL FROM GROUND UP ANIMATION
+   ───────────────────────────────────── */
+.reveal-wrapper {
+  overflow: hidden;
+  display: block;
+}
+.reveal-item {
+  display: block;
+  transform: translateY(102%);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* Stagger delays */
+.delay-1 {
+  transition-delay: 0.12s;
+  animation-delay: 0.12s !important;
+}
+.delay-2 {
+  transition-delay: 0.24s;
+  animation-delay: 0.24s !important;
+}
+.delay-3 {
+  transition-delay: 0.36s;
+  animation-delay: 0.36s !important;
+}
+
+/* 1. Mobile Hero: Animates immediately on load */
+.mobile-hero .reveal-item {
+  animation: reveal-up 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 2. Overlays: Trigger animations ONLY when the overlay becomes active */
+.about-overlay.active .reveal-item,
+.contact-overlay.active .reveal-item,
+.overlay.active .reveal-item {
+  animation: reveal-up 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes reveal-up {
+  0% {
+    transform: translateY(102%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
