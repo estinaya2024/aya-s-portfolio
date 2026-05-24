@@ -204,6 +204,35 @@ function CaseMediaFigure({ item }: { item: MediaItem }) {
 }
 
 /* =============================================
+   DYNAMIC SPLIT-TEXT COMPONENT (jobenetuk-style)
+   ============================================= */
+interface SplitTextProps {
+  text: string;
+  baseDelay?: number;
+}
+
+function SplitText({ text, baseDelay = 0 }: SplitTextProps) {
+  const words = text.split(/\s+/);
+  return (
+    <>
+      {words.map((word, idx) => (
+        <span key={idx} style={{ display: 'inline-block' }}>
+          <span className="word-mask">
+            <span
+              className="word-item"
+              style={{ transitionDelay: `${baseDelay + idx * 0.012}s` }}
+            >
+              {word}
+            </span>
+          </span>
+          {idx < words.length - 1 && <span>&nbsp;</span>}
+        </span>
+      ))}
+    </>
+  );
+}
+
+/* =============================================
    HELPER FOR MOBILE BADGES
    ============================================= */
 const getProjectBadge = (name: string) => {
@@ -422,6 +451,42 @@ function App() {
     }
   }, [selectedProject, showDetail]);
 
+  useEffect(() => {
+    const elementsToObserve = document.querySelectorAll(
+      '.about-overlay .scroll-reveal, .contact-overlay .scroll-reveal'
+    );
+
+    if (!showAbout && !showContact) {
+      elementsToObserve.forEach((el) => el.classList.remove('in-view'));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.05,
+        root: null
+      }
+    );
+
+    const activeOverlaySelector = `${showAbout ? '.about-overlay' : ''} ${showContact ? '.contact-overlay' : ''}`.trim();
+    if (activeOverlaySelector) {
+      const activeElements = document.querySelectorAll(
+        activeOverlaySelector.split(/\s+/).map((s) => `${s} .scroll-reveal`).join(', ')
+      );
+      activeElements.forEach((el) => observer.observe(el));
+    }
+
+    return () => observer.disconnect();
+  }, [showAbout, showContact]);
+
   const openProject = (project: Project) => {
     setSelectedProject(project);
     setShowDetail(true);
@@ -511,15 +576,22 @@ function App() {
             ))}
           </div>
         </div>
-        {/* Mobile vertical project list */}
         <div className="mobile-hero">
-          <h1 className="mobile-hero-title reveal-wrapper">
-            <span className="reveal-item"> HII THERE !</span>
+          <h1 className="mobile-hero-title mobile-hero-split">
+            {'HII THERE !'.split('').map((char, i) => (
+              <span
+                key={i}
+                className="split-char"
+                style={{ animationDelay: `${i * 0.045}s` }}
+              >
+                {char === ' ' ? '\u00A0' : char}
+              </span>
+            ))}
           </h1>
           <p className="mobile-hero-subtitle reveal-wrapper">
             <span className="reveal-item delay-1">
-              I'M AYA A FRONT-END DEVELOPER AND A MOTION DESIGNER BASED IN BOUIRA , ALGERIA .
-              FEEL FREE TO SEE MY PROJECTS AND CONTACT ME IF YOU HAVE A PROJECT IN MIND
+              I'm Aya — a front-end developer and motion designer based in Bouira, Algeria.
+              Feel free to explore my projects and reach out if you have something in mind.
             </span>
           </p>
         </div>
@@ -691,32 +763,30 @@ function App() {
         </div>
         <div className="about-content">
           <div className="about-bio">
-            <h1 className="about-bio-title">
+            <h1 className="about-bio-title scroll-reveal">
               <span className="reveal-wrapper"><span className="reveal-item">Karou</span></span>
-              <span className="reveal-wrapper"><span className="reveal-item delay-1">Aya Malak</span></span>
+              <span className="reveal-wrapper"><span className="reveal-item" style={{ animationDelay: '0.08s' }}>Aya Malak</span></span>
             </h1>
             <div className="about-bio-text">
-              <h2 className="reveal-wrapper"><span className="reveal-item">Bio</span></h2>
-              <p className="reveal-wrapper">
-                <span className="reveal-item delay-1">
-                  Hey, I'm Aya! I'm a 19-year-old frontend developer and a 2CP computer science student at ESTIN (École Supérieure en Sciences et Technologies de l'Informatique et du Numérique), hailing from Bouira, Algeria.
-                </span>
+              <h2 className="scroll-reveal">
+                <span className="reveal-wrapper"><span className="reveal-item">Bio</span></span>
+              </h2>
+              <p className="scroll-reveal" style={{ transitionDelay: '0.08s' }}>
+                <SplitText text="Hey, I'm Aya! I'm a 19-year-old frontend developer and a 2CP computer science student at ESTIN (École Supérieure en Sciences et Technologies de l'Informatique et du Numérique), hailing from Bouira, Algeria." baseDelay={0.08} />
               </p>
-              <p className="reveal-wrapper">
-                <span className="reveal-item delay-2">
-                  My entry into web development in the summer of 2025 changed everything. It ceased being just a hobby and became my daily creative outlet — a lifestyle centered around rapid growth and continuous execution.
-                </span>
+              <p className="scroll-reveal" style={{ transitionDelay: '0.16s' }}>
+                <SplitText text="My entry into web development in the summer of 2025 changed everything. It ceased being just a hobby and became my daily creative outlet — a lifestyle centered around rapid growth and continuous execution." baseDelay={0.16} />
               </p>
-              <p className="reveal-wrapper">
-                <span className="reveal-item delay-3">
-                  Driven by endless curiosity, I craft polished, immersive interfaces, write elegant code, and am currently focused on mastering backend development to build powerful, full-stack digital systems. Want to know more or collaborate? Let’s connect and spark a conversation!
-                </span>
+              <p className="scroll-reveal" style={{ transitionDelay: '0.24s' }}>
+                <SplitText text="Driven by endless curiosity, I craft polished, immersive interfaces, write elegant code, and am currently focused on mastering backend development to build powerful, full-stack digital systems. Want to know more or collaborate? Let’s connect and spark a conversation!" baseDelay={0.24} />
               </p>
             </div>
           </div>
           <div className="about-section">
             <div>
-              <h2>Skills & Technologies</h2>
+              <h2 className="scroll-reveal">
+                <SplitText text="Skills & Technologies" baseDelay={0.05} />
+              </h2>
               <ul className="interests-list">
                 {[
                   'React',
@@ -729,15 +799,17 @@ function App() {
                   'C Language (Basic)',
                   'Git',
                   'Linux'
-                ].map((skill) => (
-                  <li key={skill} className="interest-tag">
+                ].map((skill, idx) => (
+                  <li key={skill} className="interest-tag scroll-reveal" style={{ transitionDelay: `${idx * 0.03}s` }}>
                     {skill}
                   </li>
                 ))}
               </ul>
             </div>
             <div>
-              <h2>Education & Dev Journey</h2>
+              <h2 className="scroll-reveal">
+                <SplitText text="Education & Dev Journey" baseDelay={0.05} />
+              </h2>
               <ul className="experience-list">
                 {[
                   {
@@ -750,8 +822,8 @@ function App() {
                     role: 'Frontend Developer',
                     timeline: 'Summer 2025 - Present'
                   }
-                ].map((exp) => (
-                  <li key={exp.company} className="experience-item">
+                ].map((exp, idx) => (
+                  <li key={exp.company} className="experience-item scroll-reveal" style={{ transitionDelay: `${idx * 0.08}s` }}>
                     <p>{exp.company}</p>
                     <p className="role">{exp.role}</p>
                     <p className="timeline">{exp.timeline}</p>
@@ -761,7 +833,9 @@ function App() {
             </div>
           </div>
           <div className="recognitions-section">
-            <h2>Quick Facts</h2>
+            <h2 className="scroll-reveal">
+              <SplitText text="Quick Facts" baseDelay={0.05} />
+            </h2>
             <ul className="recognitions-list">
               {[
                 'Full Name: Karou Aya Malak',
@@ -770,8 +844,8 @@ function App() {
                 'College: ESTIN Student',
                 'Dev Style: Motion, Tailwind, React, Git, Linux',
                 'Philosophy: Web dev is a lifestyle'
-              ].map((fact) => (
-                <li key={fact} className="recognition-tag">
+              ].map((fact, idx) => (
+                <li key={fact} className="recognition-tag scroll-reveal" style={{ transitionDelay: `${idx * 0.03}s` }}>
                   {fact}
                 </li>
               ))}
@@ -787,15 +861,19 @@ function App() {
           </button>
         </div>
         <div className="contact-content">
-          <h2 className="contact-heading">
+          <h2 className="contact-heading scroll-reveal">
             <span className="reveal-wrapper"><span className="reveal-item">Let's Create</span></span>
-            <span className="reveal-wrapper"><span className="reveal-item delay-1">Something Crazy</span></span>
+            <span className="reveal-wrapper"><span className="reveal-item" style={{ animationDelay: '0.08s' }}>Something Crazy</span></span>
           </h2>
-          <p className="contact-sub reveal-wrapper">
-            <span className="reveal-item delay-2">Have a project in mind?</span>
+          <p className="contact-sub scroll-reveal">
+            <span className="reveal-wrapper">
+              <span className="reveal-item" style={{ animationDelay: '0.16s' }}>Have a project in mind?</span>
+            </span>
           </p>
-          <a href="mailto:a_karou@estin.dz" className="contact-email">
-            a_karou@estin.dz
+          <a href="mailto:a_karou@estin.dz" className="contact-email scroll-reveal">
+            <span className="reveal-wrapper">
+              <span className="reveal-item" style={{ animationDelay: '0.24s' }}>a_karou@estin.dz</span>
+            </span>
           </a>
           <div className="contact-socials">
             {[
@@ -807,15 +885,19 @@ function App() {
                 label: 'GitHub',
                 url: 'https://github.com/estinaya2024'
               }
-            ].map((social) => (
+            ].map((social, idx) => (
               <a
                 key={social.label}
                 href={social.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="contact-social-link"
+                className="contact-social-link scroll-reveal"
               >
-                {social.label}
+                <span className="reveal-wrapper">
+                  <span className="reveal-item" style={{ animationDelay: `${0.32 + idx * 0.08}s` }}>
+                    {social.label}
+                  </span>
+                </span>
               </a>
             ))}
           </div>
