@@ -2008,18 +2008,29 @@ body:before {
   animation: reveal-up 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* General scroll-reveal style: fades and slides up */
+/* General scroll-reveal style: masks the container and slides up the child item */
 .scroll-reveal {
+  overflow: hidden;
+  display: block;
+}
+
+.scroll-reveal.inline {
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+.scroll-reveal-item {
+  display: block;
+  transform: translateY(105%);
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1);
   opacity: 0;
-  transform: translateY(35px);
-  transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, opacity;
 }
 
-.scroll-reveal.in-view {
-  opacity: 1;
+.scroll-reveal.in-view .scroll-reveal-item {
   transform: translateY(0);
+  opacity: 1;
 }
 
 @keyframes reveal-up {
