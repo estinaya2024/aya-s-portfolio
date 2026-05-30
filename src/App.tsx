@@ -133,7 +133,7 @@ function CaseVideoPlayer({ src }: { src: string }) {
           video.pause();
         }
       },
-      { threshold: 0.25 }
+      { threshold: 0.1 }
     );
 
     observer.observe(video);
@@ -719,7 +719,7 @@ function App() {
             </figure>
           </div>
         </div>
-        {selectedProject?.media && selectedProject.media.length > 0 && (
+        {showDetail && selectedProject?.media && selectedProject.media.length > 0 && (
           <div className="case-media-grid">
             {selectedProject.media.map((mediaItem, idx) => (
               <CaseMediaFigure key={`${selectedProject.name}-${idx}`} item={mediaItem} />
