@@ -43,7 +43,12 @@ const projects: Project[] = [
     visitUrl: 'https://thazdayth.vercel.app',
     githubUrl: 'https://github.com/prj-2cp/thazdayth.git',
     media: [
-      { type: 'video', src: '/thazdayth-record.mp4' },
+      { type: 'video', src: '/dashboard-record.mp4' },
+      { type: 'video', src: '/process-record.mp4' },
+      { type: 'video', src: '/region-record.mp4' },
+      { type: 'video', src: '/boutique-record.mp4' },
+      { type: 'video', src: '/about-record.mp4' },
+      { type: 'video', src: '/plat-record.mp4' },
       { type: 'image', src: '/Screenshot 2026-05-22 234317.png' },
     ],
     nextProject: 'Veto Care'
