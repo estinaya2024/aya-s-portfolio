@@ -272,6 +272,7 @@ function App() {
   const [isDark, setIsDark] = useState(true);
   const [activeCardIndex, setActiveCardIndex] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isCoverLoaded, setIsCoverLoaded] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -331,7 +332,9 @@ function App() {
     document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
   }, [isDark]);
 
-
+  useEffect(() => {
+    setIsCoverLoaded(false);
+  }, [selectedProject]);
 
   useEffect(() => {
     if (isMobile) return;
@@ -738,11 +741,27 @@ function App() {
             )}
           </div>
           <div className="case-top-right">
-            <figure className="case-hero-figure">
+            <figure className="case-hero-figure" style={{ position: 'relative', background: '#0e0f14' }}>
+              {(!selectedProject || !isCoverLoaded) && (
+                <div className="video-skeleton">
+                  <div className="video-skeleton-shimmer" />
+                  <div className="video-skeleton-spinner">
+                    <svg viewBox="0 0 50 50">
+                      <circle cx="25" cy="25" r="20" fill="none" strokeWidth="3" />
+                    </svg>
+                  </div>
+                </div>
+              )}
               <img
+                key={selectedProject?.name}
                 src={selectedProject?.coverImg ?? selectedProject?.img}
                 alt={selectedProject?.name}
+                onLoad={() => setIsCoverLoaded(true)}
                 className="case-hero-img"
+                style={{
+                  opacity: isCoverLoaded ? 1 : 0,
+                  transition: 'opacity 0.6s ease-in-out',
+                }}
               />
             </figure>
           </div>
