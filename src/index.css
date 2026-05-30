@@ -2076,3 +2076,82 @@ body:before {
     opacity: 1;
   }
 }
+
+/* =============================================
+   VIDEO SKELETON LOADER
+   ============================================= */
+.video-skeleton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #0e0f14; /* Match var(--col-dark) */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  overflow: hidden;
+}
+
+.video-skeleton-shimmer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.04) 50%,
+    transparent 100%
+  );
+  animation: shimmer 1.8s infinite;
+}
+
+.video-skeleton-spinner {
+  width: 48px;
+  height: 48px;
+  position: relative;
+  z-index: 6;
+  opacity: 0.8;
+}
+
+.video-skeleton-spinner svg {
+  animation: rotate 2s linear infinite;
+  width: 100%;
+  height: 100%;
+}
+
+.video-skeleton-spinner circle {
+  stroke: var(--col-accent, #5e71e9); /* Matches portfolio's accent color */
+  stroke-linecap: round;
+  animation: dash 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -124;
+  }
+}

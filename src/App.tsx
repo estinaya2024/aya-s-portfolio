@@ -113,6 +113,8 @@ const marqueeProjects = [...projects, ...projects, ...projects];
    ============================================= */
 function CaseVideoPlayer({ src }: { src: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const manualPause = useRef(false);
 
   useEffect(() => {
@@ -124,16 +126,14 @@ function CaseVideoPlayer({ src }: { src: string }) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          if (!manualPause.current) {
-            video.play().catch((err) => {
-              console.log('Auto-play prevented:', err);
-            });
-          }
+          setShouldLoad(true);
         } else {
-          video.pause();
+          if (videoRef.current && !videoRef.current.paused) {
+            videoRef.current.pause();
+          }
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.02, rootMargin: '200px' }
     );
 
     observer.observe(video);
@@ -161,17 +161,45 @@ function CaseVideoPlayer({ src }: { src: string }) {
     };
   }, [src]);
 
+  useEffect(() => {
+    if (shouldLoad && videoRef.current && !manualPause.current) {
+      videoRef.current.play().catch((err) => {
+        console.log('Auto-play prevented:', err);
+      });
+    }
+  }, [shouldLoad]);
+
   return (
-    <video
-      ref={videoRef}
-      src={src}
-      loop
-      muted
-      playsInline
-      controls
-      className="case-media-asset"
-      style={{ display: 'block', width: '100%', height: '100%' }}
-    />
+    <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden', background: '#0e0e11' }}>
+      {(!shouldLoad || !isLoaded) && (
+        <div className="video-skeleton">
+          <div className="video-skeleton-shimmer" />
+          <div className="video-skeleton-spinner">
+            <svg viewBox="0 0 50 50">
+              <circle cx="25" cy="25" r="20" fill="none" strokeWidth="3" />
+            </svg>
+          </div>
+        </div>
+      )}
+      <video
+        ref={videoRef}
+        src={shouldLoad ? src : undefined}
+        preload={shouldLoad ? "auto" : "none"}
+        loop
+        muted
+        playsInline
+        controls
+        onLoadedData={() => setIsLoaded(true)}
+        className="case-media-asset"
+        style={{
+          display: 'block',
+          width: '100%',
+          height: '100%',
+          opacity: isLoaded ? 1 : 0,
+          transition: 'opacity 0.6s ease-in-out',
+        }}
+      />
+    </div>
   );
 }
 
