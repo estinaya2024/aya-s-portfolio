@@ -48,9 +48,9 @@ function compressNext() {
     '-y',
     '-i', inputPath,
     '-vcodec', 'libx264',
-    '-crf', '28',
+    '-crf', '31',
     '-preset', 'faster',
-    '-vf', 'scale=1280:-2',
+    '-vf', 'scale=960:-2',
     '-an',
     outputPath
   ];
