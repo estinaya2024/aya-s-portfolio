@@ -156,9 +156,9 @@ body:before {
     transform: scale(1) translate(0);
   }
 }
-@media (hover: none) {
+@media (hover: none), (pointer: coarse), (max-width: 1024px) {
   .cursor-container {
-    display: none;
+    display: none !important;
   }
 }
 .header {

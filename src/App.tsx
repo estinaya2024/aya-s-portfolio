@@ -58,7 +58,7 @@ const projects: Project[] = [
     stack: ['React', 'TypeScript', 'Supabase', 'CSS', 'Vite', 'Git'],
     about: 'An information system project designed for veterinary clinics and pet care management. Built using React and TypeScript on the frontend, with Supabase powering the database and backend services to ensure secure, real-time data handling.',
     visitUrl: 'https://veto-care-2f5d.vercel.app',
-    githubUrl: 'https://github.com/estinaya2024/Veto-care.git',
+    githubUrl: 'https://github.com/karouayamalak/Veto-care.git',
     media: [
       { type: 'video', src: '/vetocare-record.mp4' },
       { type: 'image', src: '/description-veto-care-page.jpg' },
@@ -75,7 +75,7 @@ const projects: Project[] = [
     stack: ['HTML', 'CSS', 'JavaScript', 'Vite', 'Git'],
     about: 'A productivity-oriented web platform designed to help users achieve their daily targets. It combines a robust, interactive Todo list with an integrated selection of ambient focus sounds to enhance deep work and minimize distraction.',
     visitUrl: 'https://focusly-mnw4-ten.vercel.app/',
-    githubUrl: 'https://github.com/estinaya2024/focusly.git',
+    githubUrl: 'https://github.com/karouayamalak/focusly.git',
     media: [
       { type: 'image', src: '/focuslyproject.png' },
       { type: 'image', src: '/descriptive-focusly.png' },
@@ -92,7 +92,7 @@ const projects: Project[] = [
     stack: ['React', 'TypeScript', 'Framer Motion', 'Chroma.js', 'Vite'],
     about: 'A color palette tool built for generating and exploring design themes. You can upload any image to extract dominant colors and map them to design roles (primary, secondary, accent, etc.), or search by color name, hex, RGB, or CMYK. Features live previews across 4 mockup layouts (landing page, dashboard, mobile app, and product grid), alongside a dark mode generator, undo/redo history, palette saving, and exporting as CSS, JSON, or SVG.',
     visitUrl: 'https://duxel-j374.vercel.app',
-    githubUrl: 'https://github.com/estinaya2024/Duxel.git',
+    githubUrl: 'https://github.com/karouayamalak/Duxel.git',
     media: [
       { type: 'video', src: '/Duxel-record.mp4' },
       { type: 'image', src: '/duxel-discription.png' },
@@ -238,6 +238,20 @@ function App() {
   const [hoveredProject, setHoveredProject] = useState<string | null>(null);
   const [isDark, setIsDark] = useState(true);
   const [activeCardIndex, setActiveCardIndex] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(
+        window.matchMedia('(hover: none)').matches ||
+        window.matchMedia('(pointer: coarse)').matches ||
+        window.innerWidth <= 1024
+      );
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     const cards = document.querySelectorAll('.mobile-project-card');
@@ -287,6 +301,7 @@ function App() {
 
 
   useEffect(() => {
+    if (isMobile) return;
     const handleMouseMove = (e: MouseEvent) => {
       if (cursorRef.current) {
         cursorRef.current.style.left = `${e.clientX}px`;
@@ -295,7 +310,7 @@ function App() {
     };
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [isMobile]);
 
   const mousePos = useRef({ x: -1000, y: -1000 });
   const timeRef = useRef(0);
@@ -469,12 +484,14 @@ function App() {
 
   return (
     <>
-      <div className="cursor-container">
-        <div className="cursor" ref={cursorRef}>
-          <span className="cursor-dot" />
-          {hoveredProject && <p className="cursor-label">{hoveredProject}</p>}
+      {!isMobile && (
+        <div className="cursor-container">
+          <div className="cursor" ref={cursorRef}>
+            <span className="cursor-dot" />
+            {hoveredProject && <p className="cursor-label">{hoveredProject}</p>}
+          </div>
         </div>
-      </div>
+      )}
 
       <header className="header">
         <div className="header-left">
@@ -868,7 +885,7 @@ function App() {
               },
               {
                 label: 'GitHub',
-                url: 'https://github.com/estinaya2024'
+                url: 'https://github.com/karouayamalak'
               }
             ].map((social, idx) => (
               <div key={social.label} className="scroll-reveal inline">
